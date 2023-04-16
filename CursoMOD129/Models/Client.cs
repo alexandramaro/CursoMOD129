@@ -27,11 +27,11 @@ namespace CursoMOD129.Models
         [Required]
         public string City { get; set; }
 
-        [StringLength(100)]
+        [StringLength(255)]
         [Required]
         public string NIF { get; set; }
 
-        [StringLength(100)]
+        [StringLength(255)]
         public string? HealthCareNumber { get; set; }
     }
 
