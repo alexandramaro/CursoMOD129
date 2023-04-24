@@ -24,25 +24,31 @@ namespace CursoMOD129.Controllers
         }
 
         // Get: TeamMembers/Create
-        public IActionResult Create()
+       [HttpPost]
+        public IActionResult Create(TeamMember newTeamMember)
         {
-            ViewData["WorkRoleID"] = new SelectList(_context.WorkRoles, "ID", "Name");
-            return View();
-        }
-
-        [HttpPost]
-        public IActionResult Create(TeamMember newTeamMember) 
-        {
-            if (ModelState.IsValid)
+            if (!newTeamMember.IsSpecialtyValid(_context))
+            {
+                ViewData["IsSpecialtyValidError"] = "Specialty is not valid!";
+            }
+            else if (ModelState.IsValid)
             {
                 _context.TeamMembers.Add(newTeamMember);
                 _context.SaveChanges();
 
                 return RedirectToAction(nameof(Index));
-
             }
 
+
+            ViewData["WorkRoleID"] = new SelectList(_context.WorkRoles, "ID", "Name");
             return View(newTeamMember);
-        } 
+        }
+
+
+
+        public IActionResult Edit(int id)
+        {
+            return View("Create");
+        }
     }
 }

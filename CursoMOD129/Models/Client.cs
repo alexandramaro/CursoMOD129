@@ -7,6 +7,7 @@ namespace CursoMOD129.Models
     {
         public int ID { get; set; }
 
+
         [StringLength(255)]
         [Required]
         public string Name { get; set; }
@@ -14,6 +15,7 @@ namespace CursoMOD129.Models
         [DataType(DataType.Date)]
         [Required]
         public DateTime Birthday { get; set; }
+
 
         [StringLength(100)]
         [Required]
@@ -33,7 +35,6 @@ namespace CursoMOD129.Models
 
         [StringLength(255)]
         public string? HealthCareNumber { get; set; }
+
     }
-
-
 }
