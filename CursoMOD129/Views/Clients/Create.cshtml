@@ -1,8 +1,8 @@
-﻿@model CursoMOD129.Models.TeamMember
+﻿@model CursoMOD129.Models.Client
 
 <h1>Create</h1>
 
-<h4>Team Member</h4>
+<h4>Client</h4>
 
 <hr />
 
@@ -51,68 +51,14 @@
 
 
             <div class="form-group">
-                <label asp-for="WorkRoleID" class="control-label"></label>
-                <select asp-for="WorkRoleID" class="form-control" asp-items="ViewBag.WorkRoleID"></select>
-                <span asp-validation-for="WorkRoleID" class="text-danger"></span>
+                <label asp-for="HealthCareNumber" class="control-label"></label>
+                <input asp-for="HealthCareNumber" class="form-control" />
+                <span asp-validation-for="HealthCareNumber" class="text-danger"></span>
             </div>
 
-            <div id="form-group-specialty" class="form-group">
-                <label asp-for="Specialty" class="control-label"></label>
-                <select asp-for="Specialty" class="form-control" asp-items="Html.GetEnumSelectList<Specialty>()">
-                    <option value="">Does not have</option>
-                </select>
-                <span asp-validation-for="Specialty" class="text-danger"></span>
-
-                @if (ViewBag.IsSpecialtyValidError != null)
-                {
-                    <p>@(ViewBag.IsSpecialtyValidError)</p>
-                }
-
-            </div>
-             
             <div class="form-group">
                 <input type="submit" value="Create" class="btn btn-primary" />
             </div>
-
         </form>
     </div>
-
-
 </div>
-
-@section Scripts {
-    @{
-        await Html.RenderPartialAsync("_ValidationScriptsPartial");
-    }
-
-    <script type="text/javascript" on-content-loaded="true">
-        var medicWorkRoleID = @(ViewData["MedicWorkRoleID"]);
-
-        $("select#WorkRoleID").change((e) => {
-            console.log($("select#WorkRoleID").val());
-
-
-            let selectedWorkRoleID = $("select#WorkRoleID").val();
-
-            var formGroupSpecialty = $("#form-group-specialty");
-
-            if (selectedWorkRoleID == medicWorkRoleID) {
-                $("select#Specialty").val("@((int)Specialty.Generalist)");
-                formGroupSpecialty.css('visibility', 'visible');
-            }
-            else {
-                $("select#Specialty").val(null);
-                formGroupSpecialty.css('visibility', 'hidden');
-            }
-        });
-
-        @* Initialization of Specialty as Generalist*@
-            $("select#Specialty").val("@((int)Specialty.Generalist)");
-
-
-
-    </script>
-}
-
-
-

@@ -64,7 +64,7 @@ namespace CursoMOD129.Data.Migrations
 
                     b.HasKey("ID");
 
-                    b.ToTable("Clients");
+                    b.ToTable("Clients", (string)null);
                 });
 
             modelBuilder.Entity("CursoMOD129.Models.TeamMember", b =>
@@ -113,7 +113,7 @@ namespace CursoMOD129.Data.Migrations
 
                     b.HasIndex("WorkRoleID");
 
-                    b.ToTable("TeamMembers");
+                    b.ToTable("TeamMembers", (string)null);
                 });
 
             modelBuilder.Entity("CursoMOD129.Models.WorkRole", b =>
@@ -130,7 +130,7 @@ namespace CursoMOD129.Data.Migrations
 
                     b.HasKey("ID");
 
-                    b.ToTable("WorkRoles");
+                    b.ToTable("WorkRoles", (string)null);
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
