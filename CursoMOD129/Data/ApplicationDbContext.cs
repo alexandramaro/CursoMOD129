@@ -11,7 +11,6 @@ namespace CursoMOD129.Data
         {
         }
 
-
         // Represents Table Clients
         public DbSet<Client> Clients { get; set; } = default!;
 

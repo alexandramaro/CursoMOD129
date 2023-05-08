@@ -10,22 +10,24 @@ namespace CursoMOD129.Models
         [Display(Name = "Appointment Number")]
         [Required]
         public string Number { get; set; }
-        
+
         [DataType(DataType.Date)]
         [Required]
         public DateTime Date { get; set; }
-                
+
         [DataType(DataType.Time)]
         [Required]
         public DateTime Time { get; set; }
 
         [Required]
-        //public int ClientID { get; set; }
+        [Display(Name = "Client")]
+        public int ClientID { get; set; }
+
+        [ValidateNever]
         public Client Client { get; set; }
 
-
         [Required]
-        [Display(Name = "Medic")]        
+        [Display(Name = "Medic")]
         public int MedicID { get; set; }
 
         [ValidateNever]
