@@ -8,12 +8,11 @@
 
 <hr />
 
-
 <div class="row">
     <div class="col-md-4">
 
-        <form asp-action="Delete" class="crud-form">   @*crud - create/read/update/delete*@
-            <partial name="Shared/_form" />            
+        <form asp-action="Delete" class="crud-form">
+            <partial name="Shared/_form" />
 
             <div class="form-group">
                 <input type="submit" value="Delete" class="btn btn-danger float-end" />
@@ -28,18 +27,12 @@
     }
 
     <script type="text/javascript" on-content-loaded="true">
-        $(document).ready( () => {
+        $(document).ready(() => {
             console.log('Ready');
 
-            $('form.crud-form input.form-control ').prop('disabled', true);                         @*vai buscar os inputs que estão dentro do formulário*@
-            $('form.crud-form input[type="checkbox"].form-check-input').prop('disabled', true);     @*vai buscar o checkbox que está dentro do formulário*@
-            $('form.crud-form select.form-control'].prop('disabled', true);
-
+            $('form.crud-form input.form-control').prop('disabled', true);
+            $('form.crud-form input[type="checkbox"].form-check-input').prop('disabled', true);
+            $('form.crud-form select.form-control').prop('disabled', true);
         });
     </script>
-    
 }
-
-
-
-

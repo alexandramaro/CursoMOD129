@@ -101,14 +101,18 @@ namespace CursoMOD129.Controllers
         }
 
 
-        // Get: Appointments/Delete
+
+        // GET: Appointments/Delete/id
         public IActionResult Delete(int id)
         {
             Appointment? appointment = _context.Appointments.Find(id);
+
             if (appointment == null)
             {
                 return NotFound();
-            }            
+            }
+
+            SetupAppointments();
 
             return View(appointment);
         }
@@ -118,15 +122,16 @@ namespace CursoMOD129.Controllers
         {
             Appointment? deletingAppointment = _context.Appointments.Find(id);
 
-            if (deletingAppointment != null)
+            if (deletingAppointment == null)
             {
-                _context.Appointments.Remove(deletingAppointment);
-                _context.SaveChanges();
+                return NotFound();
             }
+
+            _context.Appointments.Remove(deletingAppointment);
+            _context.SaveChanges();
 
             return RedirectToAction(nameof(Index));
         }
-
 
 
         // GET: Appointments/MedicAppointmentsHistory/medicID
@@ -140,7 +145,6 @@ namespace CursoMOD129.Controllers
 
             ViewData["MedicName"] = medic.Name;
 
-
             var appointmentsHistory = _context.Appointments
                 .Include(ap => ap.Client)
                 .Where(ap => ap.MedicID == id)
@@ -149,9 +153,6 @@ namespace CursoMOD129.Controllers
 
             return View(appointmentsHistory);
         }
-
-
-
 
         // GET: Appointments/MedicAppointmentsScheduled/medicID
         public IActionResult MedicAppointmentsScheduled(int id)
@@ -162,8 +163,10 @@ namespace CursoMOD129.Controllers
                 return NotFound();
             }
 
-            ViewData["MedicName"] = medic.Name;
 
+
+
+            ViewData["MedicName"] = medic.Name;
 
             var appointmentsScheduled = _context.Appointments
                 .Include(ap => ap.Client)
@@ -175,7 +178,17 @@ namespace CursoMOD129.Controllers
         }
 
 
+        // GET: Appointments/TodaysAppointments
+        public IActionResult TodaysAppointments()
+        {
+            var todaysAppointments = _context.Appointments
+                 .Include(ap => ap.Client)
+                 .Include(ap => ap.Medic)
+                .Where(ap => ap.Date.Date == DateTime.Now.Date)
+                .ToList();
 
+            return View(todaysAppointments);
+        }
 
 
 
@@ -189,8 +202,6 @@ namespace CursoMOD129.Controllers
 
             ViewData["MedicsList"] = new SelectList(dbMedicList, "ID", "Name");
         }
-
-
 
 
     }

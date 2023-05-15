@@ -9,10 +9,12 @@ namespace CursoMOD129.Controllers
     public class TeamMembersController : Controller
     {
         private readonly ApplicationDbContext _context;
+
         public TeamMembersController(ApplicationDbContext context)
         {
             _context = context;
         }
+
 
         public IActionResult Index()
         {
@@ -23,11 +25,10 @@ namespace CursoMOD129.Controllers
 
             SetupMedicWorkRoleID();
 
-
             return View(teamMembers);
         }
 
-        //Get:TeamMembers/Create
+        // Get: TeamMembers/Create
         public IActionResult Create()
         {
             SetupTeamMember();
@@ -35,31 +36,34 @@ namespace CursoMOD129.Controllers
             return View();
         }
 
-        
+
 
         [HttpPost]
         public IActionResult Create(TeamMember newTeamMember)
         {
             if (!newTeamMember.IsSpecialtyValid(_context))
             {
-                ViewData["IaSpecialtyValidError"] = "Specialty is not valid!";
+                ViewData["IsSpecialtyValidError"] = "Specialty is not valid!";
             }
             else if (ModelState.IsValid)
             {
-
-                _context.Add(newTeamMember);
+                _context.TeamMembers.Add(newTeamMember);
                 _context.SaveChanges();
 
                 return RedirectToAction(nameof(Index));
             }
+
+
             ViewData["WorkRoleID"] = new SelectList(_context.WorkRoles, "ID", "Name");
             return View(newTeamMember);
-
         }
 
+
+        // Get: TeamMembers/Edit
         public IActionResult Edit(int id)
         {
             TeamMember? teamMember = _context.TeamMembers.Find(id);
+
             if (teamMember == null)
             {
                 return NotFound();
@@ -75,11 +79,10 @@ namespace CursoMOD129.Controllers
         {
             if (!editingTeamMember.IsSpecialtyValid(_context))
             {
-                ViewData["IaSpecialtyValidError"] = "Specialty is not valid!";
+                ViewData["IsSpecialtyValidError"] = "Specialty is not valid!";
             }
             else if (ModelState.IsValid)
             {
-
                 _context.TeamMembers.Update(editingTeamMember);
                 _context.SaveChanges();
 
@@ -91,9 +94,11 @@ namespace CursoMOD129.Controllers
             return View(editingTeamMember);
         }
 
+        // Get: TeamMembers/Delete/id
         public IActionResult Delete(int id)
         {
             TeamMember? teamMember = _context.TeamMembers.Find(id);
+
             if (teamMember == null)
             {
                 return NotFound();
@@ -126,12 +131,10 @@ namespace CursoMOD129.Controllers
             SetupMedicWorkRoleID();
         }
 
-
         private void SetupMedicWorkRoleID()
-        {            
+        {
             WorkRole medicWorkRole = _context.WorkRoles.First(wr => wr.Name == "Medic"); // SelectList * top(1) from WorkRoles where Name = "Medic"
             ViewData["MedicWorkRoleID"] = medicWorkRole.ID;
         }
     }
-
 }
