@@ -36,5 +36,10 @@ namespace CursoMOD129.Models
         [StringLength(255)]
         [Display(Name = "Health Care Number")]
         public string? HealthCareNumber { get; set; }
+
+        [StringLength(255)]
+        [Display(Name = "Email")]
+        [Required]
+        public string Email { get; set; }
     }
 }
