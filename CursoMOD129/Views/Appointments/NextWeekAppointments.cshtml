@@ -1,11 +1,12 @@
 ﻿@model IEnumerable<Appointment>
 
 @{
-    string tomorrow = DateTime.Today.AddDays(1).ToShortDateString();
-    ViewData["Title"] = $"Next Week's Appointments (${tomorrow})";
+    string nextWeekAppointmentsBegin = DateTime.Today.AddDays(1).ToShortDateString();
+    string nextWeekAppointmentsEnd = DateTime.Today.AddDays(7).ToShortDateString();
+    ViewData["Title"] = $"Next Week's Appointments (${nextWeekAppointmentsBegin}) to (${nextWeekAppointmentsEnd})";
 }
 
-<h1>Tomorrow's Appointments (@(tomorrow)) </h1>
+<h1>Appointments From (@(nextWeekAppointmentsBegin)) to (@(nextWeekAppointmentsEnd) </h1>
 
 @(
 Html
@@ -36,4 +37,4 @@ Html
 
 )
 
-<a asp-action="sendTomorrowsEmails"class="btn btn-primary">Send tomorrow's Emails'</a>
+<a asp-action="sendNextWeeksEmails"class="btn btn-primary">Send Next Week's Emails'</a>

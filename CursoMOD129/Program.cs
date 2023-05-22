@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Localization;
 using Microsoft.AspNetCore.Mvc.Razor;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
+using NToastNotify;
 using System.Globalization;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -30,7 +31,9 @@ CultureInfo ptCI = new CultureInfo(defaultCulture);
 var supportedCultures = new[]
 {
     ptCI,
-    new CultureInfo("en")
+    new CultureInfo("en"),
+    new CultureInfo("es"),
+    new CultureInfo("da")
 };
 
 builder.Services.Configure<RequestLocalizationOptions>(options =>
@@ -42,11 +45,15 @@ builder.Services.Configure<RequestLocalizationOptions>(options =>
 
 builder.Services
     .AddMvc()
+    .AddNToastNotifyToastr(new ToastrOptions()
+    {
+        ProgressBar = true,
+        PositionClass = ToastPositions.TopRight
+    })
     .AddViewLocalization(LanguageViewLocationExpanderFormat.Suffix)
     .AddDataAnnotationsLocalization(options =>
     {
         options.DataAnnotationLocalizerProvider = (type, factory) => factory.Create(typeof(Resource));
-
     });
 
 
@@ -77,6 +84,9 @@ app.UseAuthorization();
 app.UseRequestLocalization(
     app.Services.GetRequiredService<IOptions<RequestLocalizationOptions>>().Value
     );
+
+//Para mensagem de erro -> segue no controlador
+app.UseNToastNotify();
 
 app.MapControllerRoute(
     name: "default",

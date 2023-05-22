@@ -15,6 +15,7 @@ namespace CursoMOD129.Models
         [Required]
         public string Name { get; set; }
 
+        [Display(Name = "Birthday")]
         [DataType(DataType.Date)]
         [Required]
         public DateTime Birthday { get; set; }

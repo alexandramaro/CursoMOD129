@@ -208,19 +208,17 @@ namespace CursoMOD129.Controllers
             return View(tomorrowsAppointments);
         }
 
+        // GET: Appointments/NextWeekAppointments
         public IActionResult NextWeekAppointments()
-        {
-            DateTime nextWeekStart = DateTime.Today.AddDays(1).Date;
-            DateTime nextWeekEnd = nextWeekStart.AddDays(7).Date;
+{
+    var nextWeekAppointments = _context.Appointments
+        .Include(ap => ap.Client)
+        .Include(ap => ap.Medic)
+        .Where(ap => ap.Date.Date >= DateTime.Today.AddDays(1) && ap.Date.Date <DateTime.Today.AddDays(7))
+        .ToList();
 
-            var nextWeekAppointments = _context.Appointments
-                .Include(ap => ap.Client)
-                .Include(ap => ap.Medic)
-                .Where(ap => ap.Date.Date >= nextWeekStart && ap.Date.Date < nextWeekEnd)
-                .ToList();
-
-            return View(nextWeekAppointments);
-        }
+    return View(nextWeekAppointments);
+}
 
 
 
@@ -289,30 +287,29 @@ namespace CursoMOD129.Controllers
 
         }
 
-        // GET: Appointments/SendNextWeekEmails
-        // id is AppointmentID
-        public IActionResult SendNextWeekEmails()
+
+        // GET: Appointments/SendNextWeeksEmails
+        //id is AppoitmentID
+        public IActionResult SendNextWeeksEmails()
         {
-            DateTime startDate = DateTime.Today.AddDays(1).Date;
-            DateTime endDate = startDate.AddDays(7).Date;
+            ICollection<Appointment> nextWeeksAppointments = _context
+                                            .Appointments
+                                            .Include(ap => ap.Client)
+                                            .Include(ap => ap.Medic)
+                                            .Where(ap => ap.Date.Date >= DateTime.Today.AddDays(1) && ap.Date.Date < DateTime.Today.AddDays(7))
+                                            .ToList();
 
-            ICollection<Appointment> nextWeekAppointments = _context.Appointments
-                .Include(ap => ap.Client)
-                .Include(ap => ap.Medic)
-                .Where(ap => ap.Date.Date >= startDate && ap.Date.Date < endDate)
-                .ToList();
-
-            if (nextWeekAppointments.Count == 0)
+            if (nextWeeksAppointments.Count == 0)
             {
                 return NotFound();
             }
 
-            string subject = "Don't forget your Next Week's Appointment";
+            string subject = "Do not forget your Today´s Appointment";
             string path = Directory.GetCurrentDirectory();
             string template = System.IO.File.ReadAllText(
-                Path.Combine(path, EMAIL.EMAIL_TEMPLATES_FOLDER, EMAIL.NEXT_WEEK_APPOINTMENT_EMAIL_TEMPLATE));
+                Path.Combine(path, EMAIL.EMAIL_TEMPLATES_FOLDER, EMAIL.TOMORROW_APPOINTMENT_EMAIL_TEMPLATE));
 
-            foreach (Appointment ap in nextWeekAppointments)
+            foreach (Appointment ap in nextWeeksAppointments)
             {
                 string clientEmail = ap.Client.Email;
 
@@ -322,12 +319,12 @@ namespace CursoMOD129.Controllers
                 body.Replace("#APPOINTMENT_TIME", ap.Time.ToShortTimeString());
 
                 _emailSender.SendEmailAsync(clientEmail, subject, body.ToString());
+
             }
 
             return RedirectToAction(nameof(TodaysAppointments));
+
         }
-
-
 
 
         private void SetupAppointments()

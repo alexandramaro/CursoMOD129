@@ -117,46 +117,16 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="Appointment Number" xml:space="preserve">
-    <value>Número da Consulta</value>
-  </data>
   <data name="Appointments" xml:space="preserve">
     <value>Consultas</value>
-  </data>
-  <data name="Client" xml:space="preserve">
-    <value>Cliente</value>
   </data>
   <data name="Clients" xml:space="preserve">
     <value>Clientes</value>
   </data>
-  <data name="Date" xml:space="preserve">
-    <value>Data</value>
-  </data>
-  <data name="Done" xml:space="preserve">
-    <value>Realizada</value>
-  </data>
-  <data name="Info" xml:space="preserve">
-    <value>Observações</value>
-  </data>
   <data name="Language" xml:space="preserve">
     <value>Idioma</value>
   </data>
-  <data name="Medic" xml:space="preserve">
-    <value>Médico</value>
-  </data>
-  <data name="My First View." xml:space="preserve">
-    <value>A minha primeira vista.</value>
-  </data>
-  <data name="Specialty is not valid!" xml:space="preserve">
-    <value>Especialida Inválida!</value>
-  </data>
-  <data name="Team Member Creation Error" xml:space="preserve">
-    <value>Erro na criação do Membro da Equipa</value>
-  </data>
   <data name="Team Members" xml:space="preserve">
-    <value>Equipa</value>
-  </data>
-  <data name="Time" xml:space="preserve">
-    <value>Horas</value>
+    <value>Equipo</value>
   </data>
 </root>
