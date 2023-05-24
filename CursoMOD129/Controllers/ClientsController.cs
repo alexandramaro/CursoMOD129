@@ -1,9 +1,12 @@
 ﻿using CursoMOD129.Data;
 using CursoMOD129.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+
 
 namespace CursoMOD129.Controllers
 {
+    [Authorize]
     public class ClientsController : Controller
     {
         private readonly ApplicationDbContext _context;

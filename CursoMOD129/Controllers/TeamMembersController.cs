@@ -1,14 +1,16 @@
 ﻿using CursoMOD129.Data;
 using CursoMOD129.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Localization;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using NToastNotify;
-using static System.Runtime.InteropServices.JavaScript.JSType;
+
 
 namespace CursoMOD129.Controllers
 {
+    [Authorize]
     public class TeamMembersController : Controller
     {
         private readonly ApplicationDbContext _context;
@@ -66,8 +68,8 @@ namespace CursoMOD129.Controllers
                 return RedirectToAction(nameof(Index));
             }
 
-            _toastNotification.AddErrorToastMessage("Please check the form again!",
-                new ToastrOptions { Title = "Team Member Creation Error" });
+            _toastNotification.AddErrorToastMessage(_sharedLocalizer["Please check the form again!"].Value,
+                new ToastrOptions { Title = _sharedLocalizer["Team Member Creation Error"].Value });
 
 
             ViewData["WorkRoleID"] = new SelectList(_context.WorkRoles, "ID", "Name");
@@ -101,6 +103,12 @@ namespace CursoMOD129.Controllers
             {
                 _context.TeamMembers.Update(editingTeamMember);
                 _context.SaveChanges();
+
+
+                string message = string.Format(_sharedLocalizer["Team Member {0} successfully edited."].Value, editingTeamMember.Name);
+
+                _toastNotification.AddSuccessToastMessage(message,
+                    new ToastrOptions { Title = _sharedLocalizer["Team Member Edited Successfully."].Value });
 
                 return RedirectToAction(nameof(Index));
             }

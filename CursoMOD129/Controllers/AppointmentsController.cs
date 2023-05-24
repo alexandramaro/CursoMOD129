@@ -7,9 +7,12 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using System.Text;
 using static CursoMOD129.CursoMOD129Constants;
+using Microsoft.AspNetCore.Authorization;
+
 
 namespace CursoMOD129.Controllers
 {
+    [Authorize]
     public class AppointmentsController : Controller
     {
         private readonly ApplicationDbContext _context;
