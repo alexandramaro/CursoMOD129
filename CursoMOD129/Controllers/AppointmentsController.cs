@@ -12,7 +12,7 @@ using Microsoft.AspNetCore.Authorization;
 
 namespace CursoMOD129.Controllers
 {
-    [Authorize]
+    [Authorize(Policy = POLICIES.APP_POLICY_ADMIN.NAME)]
     public class AppointmentsController : Controller
     {
         private readonly ApplicationDbContext _context;

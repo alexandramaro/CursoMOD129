@@ -1,5 +1,6 @@
 using CursoMOD129;
 using CursoMOD129.Data;
+using CursoMOD129.Data.SeedDatabase;
 using CursoMOD129.Services;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.UI.Services;
@@ -10,7 +11,11 @@ using Microsoft.Extensions.Options;
 using NToastNotify;
 using System.Globalization;
 
+
+using static CursoMOD129.CursoMOD129Constants;
+
 var builder = WebApplication.CreateBuilder(args);
+
 
 // Add services to the container.
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection") ?? throw new InvalidOperationException("Connection string 'DefaultConnection' not found.");
@@ -34,6 +39,12 @@ builder.Services.AddDefaultIdentity<IdentityUser>(options =>
     .AddRoles<IdentityRole>()
     .AddEntityFrameworkStores<ApplicationDbContext>();
 //builder.Services.AddControllersWithViews();
+
+builder.Services.AddAuthorization(options =>
+{
+    options.AddPolicy(POLICIES.APP_POLICY.NAME, policy => policy.RequireRole(POLICIES.APP_POLICY.APP_POLICY_ROLES));
+    options.AddPolicy(POLICIES.APP_POLICY_ADMIN.NAME, policy => policy.RequireRole(POLICIES.APP_POLICY_ADMIN.APP_POLICY_ROLES));
+});
 
 builder.Services.AddLocalization(options => options.ResourcesPath = "Resources");
 
@@ -106,18 +117,19 @@ app.MapControllerRoute(
     pattern: "{controller=Home}/{action=Index}/{id?}");
 app.MapRazorPages();
 
-SeedDatabase();
+SeedDB();
 
 app.Run();
 
-void SeedDatabase()
+void SeedDB()
 {
     using var scope = app.Services.CreateScope();
     var services = scope.ServiceProvider;
 
     var dbContext = services.GetRequiredService<ApplicationDbContext>();
     var userManager = services.GetRequiredService<UserManager<IdentityUser>>();
-    var roleManager = services.GetRequiredService<RoleManager<IdentityUser>>();
+    var roleManager = services.GetRequiredService<RoleManager<IdentityRole>>();
 
     SeedDatabase.Seed(dbContext, userManager, roleManager);
+
 }
